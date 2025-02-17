@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Show</title>
+    <title>All users</title>
 </head>
 <body>
 <table border="1">
@@ -16,13 +16,18 @@
 
     </thead>
     <tbody>
-    <tr>
+    <tr th:each="user : ${users}">
         <td th:text="${user.getName()}"></td>
         <td th:text="${user.getPassword()}"></td>
         <td th:text="${user.getYearOfBirth()}"></td>
         <td th:text="${user.getRoles()}"></td>
+        <td>
+            <a th:href="@{admin/update/{id}(id=${user.getId()})}">Edit</a>
+        </td>
     </tr>
     </tbody>
-</table>
+    </table>
+<br/>
+<a href="admin/new">Create new user</a>
 </body>
 </html>

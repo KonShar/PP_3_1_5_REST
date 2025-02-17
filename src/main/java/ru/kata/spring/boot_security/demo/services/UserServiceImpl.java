@@ -12,6 +12,7 @@ import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -33,6 +34,10 @@ public class UserServiceImpl implements UserService{
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+//    @Override
+//    public List<Role> getUsersRoles() {
+//        return roleRepository.findRolesByUsers(userRepository.findAll());
+//    }
 
     @Override
     public void saveUser(User user) {
@@ -45,8 +50,14 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User getUserById(int id) {
         return null;
+    }
+
+    @Override
+    public User getUserByName(String name) {
+        return userRepository.findUserByName(name).get();
     }
 
     @Override

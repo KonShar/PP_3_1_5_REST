@@ -9,9 +9,10 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(name = "person")
+@Table(name = "users")
 public class User implements UserDetails {
 
     @Id
@@ -31,8 +32,12 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @ManyToMany
-    private List<Role> roles;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles;
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
 
     public User() {
     }
@@ -70,7 +75,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return roles;
     }
 
     @Override
