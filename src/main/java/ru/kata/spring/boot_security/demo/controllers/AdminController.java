@@ -19,9 +19,9 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdminController {
 
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
     public AdminController(PasswordEncoder passwordEncoder, UserService userService) {

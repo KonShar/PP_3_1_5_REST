@@ -28,13 +28,13 @@ public class UserServiceImpl implements UserService{
         this.roleRepository = roleRepository;
     }
 
-
     @Override
     @Transactional(readOnly = true)
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
     @Override
+    @Transactional(readOnly = true)
     public List<Role> getAllRoles() {
         return roleRepository.findAll();
     }
@@ -43,12 +43,9 @@ public class UserServiceImpl implements UserService{
     public void saveUser(User user) {
         Optional<User> userFromBD = userRepository.findUserByName(user.getName());
         if (userFromBD.isPresent()) {
-//            return false;
             throw new RuntimeException(String.format("User %s already exists", user.getUsername()));
         } else {
-//            user.setPassword(new PasswordEncoder(user.getPassword()));
             userRepository.save(user);
-//            return true;
         }
     }
 
@@ -59,6 +56,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User getUserByName(String name) {
         return userRepository.findUserByName(name).get();
     }
@@ -76,6 +74,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> userOptional = userRepository.findUserByName(username);
         if (userOptional.isEmpty()) {

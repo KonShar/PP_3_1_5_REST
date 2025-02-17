@@ -11,7 +11,7 @@ import java.security.Principal;
 @Controller
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
     public UserController(UserService userService) {
@@ -21,7 +21,7 @@ public class UserController {
     @GetMapping("/user")
     public String showUserInfo(Principal principal, Model model) {
         model.addAttribute(userService.getUserByName(principal.getName()));
-        return "user";
+        return "user/user";
     }
 
 
