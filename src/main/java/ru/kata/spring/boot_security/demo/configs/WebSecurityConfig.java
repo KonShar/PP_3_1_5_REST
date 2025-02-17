@@ -46,7 +46,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin().successHandler(successUserHandler).permitAll()
                 .and()
-                .logout().permitAll();
+                .logout().logoutUrl("/logout")
+                .logoutSuccessUrl("/login");
     }
     //    @Override
 //    protected void configure(HttpSecurity http) throws Exception {
