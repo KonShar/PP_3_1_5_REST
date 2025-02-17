@@ -7,10 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.entites.User;
 import ru.kata.spring.boot_security.demo.services.UserService;
 import ru.kata.spring.boot_security.demo.services.UserServiceImpl;
@@ -60,5 +57,31 @@ public class AdminController {
             }
             return "redirect:admin";
         }
+    }
+
+    @GetMapping("/update/{id}")
+    public String updateUser(@PathVariable Integer id,
+                           Model model) {
+        model.addAttribute("user",userService.getUserById(id));
+        model.addAttribute("roles", userService.getAllRoles());
+        return "admin/edit";
+    }
+    @PatchMapping("/update")
+    public String updateUser(@RequestParam Integer id,
+                             @ModelAttribute @Valid User user, BindingResult bindingResult,
+                             Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("roles", userService.getAllRoles());
+            return "admin/edit";
+        } else {
+            userService.updateUser(id, user);
+        }
+        return "redirect:/admin";
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteUser(@PathVariable Integer id) {
+        userService.deleteUser(id);
+        return "redirect:/admin";
     }
 }

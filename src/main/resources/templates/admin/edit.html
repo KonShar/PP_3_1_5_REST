@@ -5,25 +5,8 @@
     <title>Update user</title>
 </head>
 <body>
-<form th:method="POST" th:action="@{/users/update(id=${user.getId()})}" th:object="${user}">
-  <label for="name">Enter name: </label>
-  <input type="text" th:field="*{name}" id="name"/>
-  <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
-  <br/>
-  <label for="surname">Enter surname: </label>
-  <input type="text" th:field="*{surname}" id="surname"/>
-  <div style="color:red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Surname Error</div>
-  <br/>
-  <label for="age">Enter age: </label>
-  <input type="text" th:field="*{age}" id="age"/>
-  <div style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age Error</div>
-  <br/>
-  <input type="submit" value="Update!"/>
-</form>
-<form th:method="POST" th:action="@{/users/delete(id=${user.getId()})}">
-  <input type="submit" value="Delete"/>
-</form>
-<form th:method="POST" th:action="@{/admin}" th:object="${user}">
+<!--<form th:method="POST" th:action="@{/admin}" th:object="${user}">-->
+<form th:method="PATCH" th:action="@{/admin/update(id=${user.getId()})}" th:object="${user}">
   <label for="name">Enter name: </label>
   <input type="text" th:field="*{name}" id="name"/>
   <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
@@ -36,12 +19,18 @@
   <input type="text" th:field="*{yearOfBirth}" id="yearOfBirth"/>
   <div style="color:red" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}">Year of birth Error</div>
   <br/>
-  <label for="password">Enter name: </label>
-  <input type="text" th:field="*{password}" id="password"/>
-  <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>
-  <br/>
-
-  <input type="submit" value="Update!">
+  <label for="roles">  Roles:</label>
+  <input type="checkbox" th:field="*{roles}" id="roles"
+         th:each="role : ${roles}"
+         th:text="${role.toString()}"
+         th:value="${role.id}"
+  />
+  <div style="color:red" th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}">Roles Error</div>
+  <br>
+  <input type="submit" value="Update!"/>
+</form>
+<form th:method="DELETE" th:action="@{/admin/{id}(id=${user.getId()})}">
+  <input type="submit" value="Delete"/>
 </form>
 </body>
 </html>

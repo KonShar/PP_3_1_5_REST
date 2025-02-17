@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional(readOnly = true)
     public User getUserById(int id) {
-        return null;
+        return userRepository.getById(id);
     }
 
     @Override
@@ -65,12 +65,14 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void updateUser(int id, User user) {
-
+        Optional<User> updatedUser = userRepository.findById(id);
+        user.setPassword(updatedUser.get().getPassword());
+        userRepository.save(user);
     }
 
     @Override
     public void deleteUser(int id) {
-
+        userRepository.deleteById(id);
     }
 
     @Override
