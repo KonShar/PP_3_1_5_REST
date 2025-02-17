@@ -6,9 +6,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -20,21 +20,26 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotEmpty(message = "Name should not be empty")
     @Size(min = 3, max = 100, message = "Names length should be from 2 to 100 characters")
     @Column(name = "name")
     private String name;
+
+    @Size(min = 3, max = 100, message = "Password length should be from 2 to 100 characters")
+    @Column(name = "password")
+    private String password;
+
+    @Size(min = 3, max = 100, message = "Surnames length should be from 2 to 100 characters")
+    @Column(name = "surname")
+    private String surname;
 
     @Min(value = 1900, message = "Year of birth should be more than 1900")
     @Column(name = "year_of_birth")
     private int yearOfBirth;
 
-    @Column(name = "password")
-    private String password;
-
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
+    @NotEmpty(message = "Choose at least one role")
     public Set<Role> getRoles() {
         return roles;
     }
@@ -71,6 +76,18 @@ public class User implements UserDetails {
 
     public void setYearOfBirth(int yearOfBirth) {
         this.yearOfBirth = yearOfBirth;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     @Override

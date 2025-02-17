@@ -28,8 +28,12 @@
     </tbody>
     </table>
 <br/>
-<a href="admin/new">Create new user</a>
+<form th:action="@{/admin/new}" method="get" >
+    <button type="submit">Create new user</button>
+</form>
 <br/>
-<a href="/logout">Logout</a>
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Logout</button>
+</form>
 </body>
 </html>
