@@ -21,11 +21,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final SuccessUserHandler successUserHandler;
 
-    public WebSecurityConfig(SuccessUserHandler successUserHandler) {
-        this.successUserHandler = successUserHandler;
-    }
+//    public WebSecurityConfig(SuccessUserHandler successUserHandler) {
+//        this.successUserHandler = successUserHandler;
+//    }
 
-    private UserService userService;
+    private final UserService userService;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {

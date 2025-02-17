@@ -3,6 +3,7 @@ package ru.kata.spring.boot_security.demo.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.entites.Role;
@@ -12,15 +13,14 @@ import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 @Transactional
 public class UserServiceImpl implements UserService{
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
@@ -43,9 +43,12 @@ public class UserServiceImpl implements UserService{
     public void saveUser(User user) {
         Optional<User> userFromBD = userRepository.findUserByName(user.getName());
         if (userFromBD.isPresent()) {
+//            return false;
             throw new RuntimeException(String.format("User %s already exists", user.getUsername()));
         } else {
+//            user.setPassword(new PasswordEncoder(user.getPassword()));
             userRepository.save(user);
+//            return true;
         }
     }
 

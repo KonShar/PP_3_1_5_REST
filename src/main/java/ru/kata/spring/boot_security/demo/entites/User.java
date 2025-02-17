@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.entites;
 
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -19,6 +20,7 @@ public class User implements UserDetails {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
 
     @Size(min = 3, max = 100, message = "Names length should be from 2 to 100 characters")
     @Column(name = "name")

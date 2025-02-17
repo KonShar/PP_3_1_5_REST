@@ -5,7 +5,6 @@ import ru.kata.spring.boot_security.demo.entites.Role;
 import ru.kata.spring.boot_security.demo.entites.User;
 
 import java.util.List;
-import java.util.Set;
 
 public interface UserService extends UserDetailsService {
 
