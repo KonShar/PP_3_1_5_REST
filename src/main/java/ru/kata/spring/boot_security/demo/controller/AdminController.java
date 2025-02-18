@@ -20,7 +20,6 @@ public class AdminController {
 
     private final UserService userService;
 
-    @Autowired
     public AdminController(PasswordEncoder passwordEncoder, UserService userService) {
         this.passwordEncoder = passwordEncoder;
         this.userService = userService;
@@ -57,8 +56,7 @@ public class AdminController {
     }
 
     @GetMapping("/update/{id}")
-    public String updateUser(@PathVariable Integer id,
-                           Model model) {
+    public String updateUser(@PathVariable Integer id, Model model) {
         model.addAttribute("user",userService.getUserById(id));
         model.addAttribute("roles", userService.getAllRoles());
         return "admin/edit";
