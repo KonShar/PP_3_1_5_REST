@@ -22,7 +22,7 @@
         <td th:text="${user.getYearOfBirth()}"></td>
         <td th:text="${user.getRoles()}"></td>
         <td>
-            <a th:href="@{admin/update/{id}(id=${user.getId()})}">Edit</a>
+            <a th:href="@{/admin/update/{id}(id=${user.getId()})}">Edit</a>
         </td>
     </tr>
     </tbody>

@@ -13,7 +13,7 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/admin/")
 public class AdminController {
 
     private final PasswordEncoder passwordEncoder;
@@ -32,7 +32,7 @@ public class AdminController {
         return "admin/users";
     }
 
-    @GetMapping("/new")
+    @GetMapping("new")
     public String createNewUser(@ModelAttribute("user") User user, Model model) {
         model.addAttribute("roles",userService.getAllRoles());
         return "admin/new";
@@ -52,7 +52,7 @@ public class AdminController {
                 model.addAttribute("roles",userService.getAllRoles());
                 return "admin/new";
             }
-            return "redirect:admin";
+            return "redirect:/admin/";
         }
     }
 
@@ -73,12 +73,12 @@ public class AdminController {
         } else {
             userService.updateUser(id, user);
         }
-        return "redirect:/admin";
+        return "redirect:/admin/";
     }
 
     @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable Integer id) {
         userService.deleteUser(id);
-        return "redirect:/admin";
+        return "redirect:/admin/";
     }
 }
