@@ -1,8 +1,6 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,12 +14,10 @@ import javax.validation.Valid;
 @RequestMapping("/admin/")
 public class AdminController {
 
-    private final PasswordEncoder passwordEncoder;
 
     private final UserService userService;
 
-    public AdminController(PasswordEncoder passwordEncoder, UserService userService) {
-        this.passwordEncoder = passwordEncoder;
+    public AdminController(UserService userService) {
         this.userService = userService;
     }
 
@@ -38,13 +34,13 @@ public class AdminController {
     }
 
     @PostMapping
-    public String saveUser(@ModelAttribute @Valid User user, BindingResult bindingResult, Model model) {
+    public String saveUser(@ModelAttribute @Valid User user,
+                           BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("roles",userService.getAllRoles());
             return "admin/new";
         } else {
             try {
-//                user.setPassword(passwordEncoder.encode(user.getPassword()));
                 userService.saveUser(user);
             } catch (RuntimeException e) {
                 bindingResult.rejectValue("name", "",e.getMessage());

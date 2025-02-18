@@ -1,8 +1,5 @@
 package ru.kata.spring.boot_security.demo.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +21,8 @@ public class UserServiceImpl implements UserService{
 
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
+                           PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
@@ -35,6 +33,7 @@ public class UserServiceImpl implements UserService{
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
     @Override
     @Transactional(readOnly = true)
     public List<Role> getAllRoles() {
@@ -76,14 +75,4 @@ public class UserServiceImpl implements UserService{
         userRepository.deleteById(id);
     }
 
-//    @Override
-//    @Transactional(readOnly = true)
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        Optional<User> userOptional = userRepository.findUserByName(username);
-//        if (userOptional.isEmpty()) {
-//            throw new UsernameNotFoundException("User not found!");
-//        } else {
-//            return userOptional.get();
-//        }
-//    }
 }
