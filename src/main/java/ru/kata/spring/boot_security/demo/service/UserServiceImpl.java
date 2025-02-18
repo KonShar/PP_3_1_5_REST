@@ -43,6 +43,7 @@ public class UserServiceImpl implements UserService{
         if (userFromBD.isPresent()) {
             throw new RuntimeException(String.format("User %s already exists", user.getUsername()));
         } else {
+            user.setPassword("{bcrypt}" + user.getPassword());
             userRepository.save(user);
         }
     }
@@ -71,14 +72,14 @@ public class UserServiceImpl implements UserService{
         userRepository.deleteById(id);
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> userOptional = userRepository.findUserByName(username);
-        if (userOptional.isEmpty()) {
-            throw new UsernameNotFoundException("User not found!");
-        } else {
-            return userOptional.get();
-        }
-    }
+//    @Override
+//    @Transactional(readOnly = true)
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        Optional<User> userOptional = userRepository.findUserByName(username);
+//        if (userOptional.isEmpty()) {
+//            throw new UsernameNotFoundException("User not found!");
+//        } else {
+//            return userOptional.get();
+//        }
+//    }
 }

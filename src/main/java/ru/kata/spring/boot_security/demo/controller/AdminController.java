@@ -44,7 +44,7 @@ public class AdminController {
             return "admin/new";
         } else {
             try {
-                user.setPassword(passwordEncoder.encode(user.getPassword()));
+//                user.setPassword(passwordEncoder.encode(user.getPassword()));
                 userService.saveUser(user);
             } catch (RuntimeException e) {
                 bindingResult.rejectValue("name", "",e.getMessage());
