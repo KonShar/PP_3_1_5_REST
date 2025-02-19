@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveUser(User user) {
-        Optional<User> userFromBD = userRepository.findUserByName(user.getName());
+        Optional<User> userFromBD = userRepository.findUserByEmail(user.getEmail());
         if (userFromBD.isPresent()) {
             throw new RuntimeException(String.format("User %s already exists", user.getUsername()));
         } else {
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public User getUserByName(String name) {
-        return userRepository.findUserByName(name).get();
+        return userRepository.findUserByEmail(name).get();
     }
 
     @Override

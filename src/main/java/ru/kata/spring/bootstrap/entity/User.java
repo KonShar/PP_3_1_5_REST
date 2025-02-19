@@ -4,10 +4,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -20,38 +22,40 @@ public class User implements UserDetails {
     private int id;
 
 
-    @Size(min = 3, max = 100, message = "Names length should be from 2 to 100 characters")
-    @Column(name = "name")
-    private String name;
+    @Email(message = "Email should be valid")
+    @Column(name = "email")
+    private String email;
 
-    @Size(min = 3, max = 100, message = "Password length should be from 2 to 100 characters")
+    @Size(min = 4, max = 100, message = "Password length should be from 4 to 100 characters")
     @Column(name = "password")
     private String password;
 
-    @Size(min = 3, max = 100, message = "Surnames length should be from 2 to 100 characters")
-    @Column(name = "surname")
-    private String surname;
+    @Size(min = 3, max = 100, message = "First names length should be from 3 to 100 characters")
+    @Column(name = "first_name")
+    private String firstName;
 
-    @Min(value = 1900, message = "Year of birth should be more than 1900")
-    @Column(name = "year_of_birth")
-    private int yearOfBirth;
+    @Size(min = 3, max = 100, message = "Last name length should be from 3 to 100 characters")
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Min(value = 14, message = "Age should at least 14")
+    @Column(name = "age")
+    private int age;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles;
-
     @NotEmpty(message = "Choose at least one role")
-    public Set<Role> getRoles() {
-        return roles;
-    }
+    private Set<Role> roles;
 
     public User() {
     }
 
-    public User(int id, String name, int yearOfBirth, String password) {
+    public User(int id, String email, String password, String firstName, String lastName, int age) {
         this.id = id;
-        this.name = name;
-        this.yearOfBirth = yearOfBirth;
+        this.email = email;
         this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
     }
 
     public int getId() {
@@ -62,28 +66,49 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getEmail() {
+        return email;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public int getYearOfBirth() {
-        return yearOfBirth;
+    @Override
+    public String getPassword() {
+        return password;
     }
 
-    public void setYearOfBirth(int yearOfBirth) {
-        this.yearOfBirth = yearOfBirth;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
     }
 
     public void setRoles(Set<Role> roles) {
@@ -92,17 +117,12 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
+        return this.getRoles();
     }
 
     @Override
     public String getUsername() {
-        return name;
+        return this.getEmail();
     }
 
     @Override
@@ -123,19 +143,5 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", yearOfBirth=" + yearOfBirth +
-                ", password='" + password + '\'' +
-                '}';
     }
 }
