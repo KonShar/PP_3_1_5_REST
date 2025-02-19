@@ -1,19 +1,19 @@
-package ru.kata.spring.boot_security.demo.service;
+package ru.kata.spring.bootstrap.service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.kata.spring.boot_security.demo.entity.Role;
-import ru.kata.spring.boot_security.demo.entity.User;
-import ru.kata.spring.boot_security.demo.repository.RoleRepository;
-import ru.kata.spring.boot_security.demo.repository.UserRepository;
+import ru.kata.spring.bootstrap.entity.Role;
+import ru.kata.spring.bootstrap.entity.User;
+import ru.kata.spring.bootstrap.repository.RoleRepository;
+import ru.kata.spring.bootstrap.repository.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Transactional
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 

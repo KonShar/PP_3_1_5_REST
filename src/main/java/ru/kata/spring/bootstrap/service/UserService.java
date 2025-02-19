@@ -1,7 +1,7 @@
-package ru.kata.spring.boot_security.demo.service;
+package ru.kata.spring.bootstrap.service;
 
-import ru.kata.spring.boot_security.demo.entity.Role;
-import ru.kata.spring.boot_security.demo.entity.User;
+import ru.kata.spring.bootstrap.entity.Role;
+import ru.kata.spring.bootstrap.entity.User;
 
 import java.util.List;
 

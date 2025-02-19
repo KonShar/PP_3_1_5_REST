@@ -1,4 +1,4 @@
-package ru.kata.spring.boot_security.demo.entity;
+package ru.kata.spring.bootstrap.entity;
 
 
 import org.springframework.security.core.GrantedAuthority;
