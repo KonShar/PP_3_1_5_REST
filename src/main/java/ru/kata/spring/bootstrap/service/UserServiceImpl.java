@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
 
@@ -34,14 +34,10 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<Role> getAllRoles() {
-        return roleRepository.findAll();
-    }
+
 
     @Override
-    public void saveUser(User user) {
+    public User saveUser(User user) {
         Optional<User> userFromBD = userRepository.findUserByEmail(user.getEmail());
         if (userFromBD.isPresent()) {
             throw new RuntimeException(String.format("User %s already exists", user.getUsername()));
@@ -49,6 +45,7 @@ public class UserServiceImpl implements UserService {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
         }
+        return user;
     }
 
     @Override
@@ -59,15 +56,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public User getUserByName(String name) {
+    public User getUserByEmail(String name) {
         return userRepository.findUserByEmail(name).get();
     }
 
     @Override
-    public void updateUser(int id, User user) {
+    public User updateUser(int id, User user) {
         Optional<User> updatedUser = userRepository.findById(id);
         user.setPassword(updatedUser.get().getPassword());
         userRepository.save(user);
+        return user;
     }
 
     @Override
