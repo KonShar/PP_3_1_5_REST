@@ -10,6 +10,7 @@ import ru.kata.spring.bootstrap.service.RoleService;
 import ru.kata.spring.bootstrap.service.UserService;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/admin/")
@@ -26,8 +27,10 @@ public class AdminController {
     }
 
     @GetMapping
-    public String getAllUsers(Model model) {
+    public String getAllUsers(@ModelAttribute("user") User user,Principal principal, Model model) {
+        model.addAttribute("admin",userService.getUserByEmail(principal.getName()));
         model.addAttribute("users",userService.getAllUsers());
+        model.addAttribute("allRoles", roleService.getAllRoles());
         return "admin/users";
     }
 

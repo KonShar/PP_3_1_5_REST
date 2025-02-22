@@ -22,28 +22,28 @@ public class User implements UserDetails {
     private int id;
 
 
-    @Email(message = "Email should be valid")
+//    @Email(message = "Email should be valid")
     @Column(name = "email")
     private String email;
 
-    @Size(min = 4, max = 100, message = "Password length should be from 4 to 100 characters")
+//    @Size(min = 4, max = 100, message = "Password length should be from 4 to 100 characters")
     @Column(name = "password")
     private String password;
 
-    @Size(min = 3, max = 100, message = "First names length should be from 3 to 100 characters")
+//    @Size(min = 3, max = 100, message = "First names length should be from 3 to 100 characters")
     @Column(name = "first_name")
     private String firstName;
 
-    @Size(min = 3, max = 100, message = "Last name length should be from 3 to 100 characters")
+//    @Size(min = 3, max = 100, message = "Last name length should be from 3 to 100 characters")
     @Column(name = "last_name")
     private String lastName;
 
-    @Min(value = 14, message = "Age should at least 14")
+//    @Min(value = 14, message = "Age should at least 14")
     @Column(name = "age")
     private int age;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @NotEmpty(message = "Choose at least one role")
+//    @NotEmpty(message = "Choose at least one role")
     private Set<Role> roles;
 
     public User() {
