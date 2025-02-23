@@ -49,13 +49,20 @@ public class AdminController {
     @GetMapping("/update/{id}")
     public String updateUser(@PathVariable Integer id, Model model) {
         model.addAttribute("user",userService.getUserById(id));
-        model.addAttribute("roles", roleService.getAllRoles());
+        model.addAttribute("allRoles", roleService.getAllRoles());
         return "admin/edit";
     }
     @PatchMapping("/update")
     public String updateUser(@RequestParam Integer id, @ModelAttribute User user) {
         userService.updateUser(id, user);
         return "redirect:/admin/";
+    }
+
+    @GetMapping("/delete")
+    public String deleteUser(@RequestParam Integer id, Model model) {
+        model.addAttribute("user",userService.getUserById(id));
+        model.addAttribute("allRoles", roleService.getAllRoles());
+        return "admin/delete";
     }
 
     @DeleteMapping("/{id}")
