@@ -17,14 +17,10 @@ public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
 
-    private final RoleRepository roleRepository;
-
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
-                           PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -62,15 +58,21 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User updateUser(int id, User user) {
-        Optional<User> updatedUser = userRepository.findById(id);
-        user.setPassword(updatedUser.get().getPassword());
+        Optional<User> userToBeUpdated = userRepository.findById(id);
+        user.setId(userToBeUpdated.get().getId());
+        if (user.getPassword() == null) {
+            user.setPassword(userToBeUpdated.get().getPassword());
+        } else {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         userRepository.save(user);
         return user;
     }
 
     @Override
-    public void deleteUser(int id) {
+    public User deleteUser(int id) {
         userRepository.deleteById(id);
+        return new User();
     }
 
 }
