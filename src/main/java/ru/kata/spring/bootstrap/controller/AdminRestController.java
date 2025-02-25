@@ -2,6 +2,7 @@ package ru.kata.spring.bootstrap.controller;
 
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.bootstrap.entity.Role;
 import ru.kata.spring.bootstrap.entity.User;
@@ -12,7 +13,8 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/admin")
+@PreAuthorize("hasRole('ADMIN')")
 public class AdminRestController {
 
     private final UserService userService;
