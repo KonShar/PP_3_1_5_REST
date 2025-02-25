@@ -1,20 +1,14 @@
-// ============================
-// 1. Считывание CSRF-токена и названия заголовка из <meta>
 const token = document.querySelector('meta[name="_csrf"]').getAttribute('content');
 const header = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
 
-// ============================
-// 2. Функция для подгрузки ролей из /api/roles
 async function loadRoles() {
     try {
-        // Для GET-запроса CSRF обычно не требуется, но можно указать headers: { [header]: token }
         const response = await fetch("/api/admin/roles");
         if (!response.ok) {
             throw new Error("Ошибка при загрузке ролей");
         }
         const roles = await response.json();
 
-        // Заполняем select для New User
         const newRolesSelect = document.getElementById("newRoles");
         newRolesSelect.innerHTML = "";
         roles.forEach(role => {
@@ -24,7 +18,6 @@ async function loadRoles() {
             newRolesSelect.appendChild(option);
         });
 
-        // Заполняем select для Edit User
         const editRolesSelect = document.getElementById("editRoles");
         editRolesSelect.innerHTML = "";
         roles.forEach(role => {
@@ -39,8 +32,6 @@ async function loadRoles() {
     }
 }
 
-// ============================
-// 3. Загрузка текущего пользователя (GET /api/user)
 async function loadCurrentUser() {
     try {
         const response = await fetch("/api/admin/user");
@@ -49,7 +40,6 @@ async function loadCurrentUser() {
         }
         const user = await response.json();
 
-        // Заполняем секцию "User" (tab User)
         document.getElementById("currentUserId").textContent = user.id;
         document.getElementById("currentUserFirstName").textContent = user.firstName;
         document.getElementById("currentUserLastName").textContent = user.lastName;
@@ -57,7 +47,6 @@ async function loadCurrentUser() {
         document.getElementById("currentUserEmail").textContent = user.email;
         document.getElementById("currentUserRoles").textContent = user.roles.map(r => r.name.replace("ROLE_", "")).join(", ");
 
-        // Одновременно обновим navbarUserInfo, если нужно
         const navbarInfo = document.getElementById("navbarUserInfo");
         if (navbarInfo) {
             const roles = user.roles.map(r => r.name.replace("ROLE_", "")).join(" ");
@@ -69,8 +58,6 @@ async function loadCurrentUser() {
     }
 }
 
-// ============================
-// 4. Загрузка всех пользователей (GET /api/users)
 async function loadAllUsers() {
     try {
         const response = await fetch("/api/admin/users");
@@ -104,19 +91,15 @@ async function loadAllUsers() {
     }
 }
 
-// ============================
-// 5. Создание нового пользователя (POST /api/users)
 document.getElementById("newUserForm").addEventListener("submit", async event => {
     event.preventDefault();
 
-    // Считываем данные из формы
     const firstName = document.getElementById("newFirstName").value;
     const lastName = document.getElementById("newLastName").value;
     const age = document.getElementById("newAge").value;
     const email = document.getElementById("newEmail").value;
     const password = document.getElementById("newPassword").value;
 
-    // Роли из multiple-select
     const rolesSelect = document.getElementById("newRoles");
     const selectedRoles = Array.from(rolesSelect.selectedOptions).map(option => ({
         id: option.value,
@@ -145,25 +128,16 @@ document.getElementById("newUserForm").addEventListener("submit", async event =>
             throw new Error("Ошибка при создании пользователя");
         }
 
-        // Успешное создание — обновляем таблицу
         await loadAllUsers();
-        // Сбрасываем форму
         event.target.reset();
-        // Переключаемся на вкладку "Users"
         document.getElementById("users-tab").click();
 
     } catch (error) {
         console.error(error);
     }
 });
-
-// ============================
-// 6. Edit user (PATCH /api/users/{id})
-
-// Функция, открывающая модалку Edit
 async function showEditModal(userId) {
     try {
-        // Можно вызвать /api/users/{id}, но для простоты загрузим всех:
         const response = await fetch("/api/admin/users");
         if (!response.ok) {
             throw new Error("Ошибка при получении списка пользователей");
@@ -174,7 +148,6 @@ async function showEditModal(userId) {
             throw new Error("Пользователь не найден");
         }
 
-        // Заполняем форму
         document.getElementById("editUserId").value = user.id;
         document.getElementById("editFirstName").value = user.firstName;
         document.getElementById("editLastName").value = user.lastName;
@@ -182,7 +155,6 @@ async function showEditModal(userId) {
         document.getElementById("editEmail").value = user.email;
         document.getElementById("editPassword").value = "";
 
-        // Сбрасываем все выбранные роли, затем выделяем те, что у пользователя
         const editRolesSelect = document.getElementById("editRoles");
         for (let i = 0; i < editRolesSelect.options.length; i++) {
             editRolesSelect.options[i].selected = false;
@@ -195,7 +167,6 @@ async function showEditModal(userId) {
             }
         });
 
-        // Открываем модалку
         const modal = new bootstrap.Modal(document.getElementById("editUserModal"));
         modal.show();
     } catch (error) {
@@ -203,7 +174,6 @@ async function showEditModal(userId) {
     }
 }
 
-// Сабмит формы Edit
 document.getElementById("editUserForm").addEventListener("submit", async event => {
     event.preventDefault();
 
@@ -214,7 +184,6 @@ document.getElementById("editUserForm").addEventListener("submit", async event =
     const email = document.getElementById("editEmail").value;
     const password = document.getElementById("editPassword").value;
 
-    // Собираем выбранные роли
     const editRolesSelect = document.getElementById("editRoles");
     const selectedRoles = Array.from(editRolesSelect.selectedOptions).map(option => ({
         id: option.value,
@@ -242,11 +211,9 @@ document.getElementById("editUserForm").addEventListener("submit", async event =
             throw new Error("Ошибка при обновлении пользователя");
         }
 
-        // Закрываем модалку
         const modal = bootstrap.Modal.getInstance(document.getElementById("editUserModal"));
         modal.hide();
 
-        // Обновляем таблицу
         await loadAllUsers();
 
     } catch (error) {
@@ -255,10 +222,8 @@ document.getElementById("editUserForm").addEventListener("submit", async event =
 });
 
 
-// Функция, вызываемая при нажатии "Delete" в таблице
 async function showDeleteModal(userId) {
     try {
-        // Можно вызвать /api/users/{id}, но для простоты загрузим всех:
         const response = await fetch("/api/admin/users");
         if (!response.ok) {
             throw new Error("Ошибка при получении списка пользователей");
@@ -269,7 +234,6 @@ async function showDeleteModal(userId) {
             throw new Error("Пользователь не найден");
         }
 
-        // Заполняем форму
         document.getElementById("deleteId").value = user.id;
         document.getElementById("deleteFirstName").value = user.firstName;
         document.getElementById("deleteLastName").value = user.lastName;
@@ -282,7 +246,6 @@ async function showDeleteModal(userId) {
             .join(" ");
         document.getElementById("deleteRoles").value = rolesStr;
 
-        // Открываем модалку
         const modal = new bootstrap.Modal(document.getElementById("deleteUserModal"));
         modal.show();
     } catch (error) {
@@ -295,35 +258,25 @@ document.getElementById("deleteUserForm").addEventListener("submit", async event
 
     const userId = document.getElementById("deleteId").value;
 
-    const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
-    const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
-
     const response = await fetch(`/api/admin/users/${userId}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
-            [csrfHeader]: csrfToken // Добавление CSRF-токена, если он включен в Spring Security
+            [header]: token
         }
     }).then(response => {
         if (response.ok) {
-            // Закрываем модальное окно
             const deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteUserModal'));
             deleteModal.hide();
-            // Обновляем список пользователей
             loadAllUsers();
         } else {
             console.error('Ошибка удаления пользователя');
         }
     }).catch(error => console.error('Ошибка сети:', error));
 });
-// ============================
-// 8. Инициализация при загрузке страницы
 document.addEventListener("DOMContentLoaded", async () => {
-    // Сначала подгружаем роли
     await loadRoles();
-    // Текущего юзера
     await loadCurrentUser();
-    // Список всех пользователей
     await loadAllUsers();
 });
 

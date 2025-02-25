@@ -17,13 +17,10 @@ import java.util.List;
 @PreAuthorize("hasRole('USER')")
 public class UserRestController {
 
-    private UserService userService;
+    private final UserService userService;
 
-    private RoleService roleService;
-
-    public UserRestController(UserService userService, RoleService roleService) {
+    public UserRestController(UserService userService)  {
         this.userService = userService;
-        this.roleService = roleService;
     }
 
     @GetMapping
@@ -31,8 +28,4 @@ public class UserRestController {
         return userService.getUserByEmail(principal.getName());
     }
 
-    @GetMapping("/roles")
-    public List<Role> getAllRoles() {
-        return roleService.getAllRoles();
-    }
 }
