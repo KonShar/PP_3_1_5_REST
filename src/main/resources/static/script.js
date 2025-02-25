@@ -8,7 +8,7 @@ const header = document.querySelector('meta[name="_csrf_header"]').getAttribute(
 async function loadRoles() {
     try {
         // Для GET-запроса CSRF обычно не требуется, но можно указать headers: { [header]: token }
-        const response = await fetch("/api/roles");
+        const response = await fetch("/api/admin/roles");
         if (!response.ok) {
             throw new Error("Ошибка при загрузке ролей");
         }
@@ -43,7 +43,7 @@ async function loadRoles() {
 // 3. Загрузка текущего пользователя (GET /api/user)
 async function loadCurrentUser() {
     try {
-        const response = await fetch("/api/user");
+        const response = await fetch("/api/admin/user");
         if (!response.ok) {
             throw new Error("Ошибка при загрузке текущего пользователя");
         }
@@ -73,7 +73,7 @@ async function loadCurrentUser() {
 // 4. Загрузка всех пользователей (GET /api/users)
 async function loadAllUsers() {
     try {
-        const response = await fetch("/api/users");
+        const response = await fetch("/api/admin/users");
         if (!response.ok) {
             throw new Error("Ошибка при загрузке списка пользователей");
         }
@@ -124,7 +124,7 @@ document.getElementById("newUserForm").addEventListener("submit", async event =>
     }));
 
     try {
-        const response = await fetch("/api/users", {
+        const response = await fetch("/api/admin/users", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -164,7 +164,7 @@ document.getElementById("newUserForm").addEventListener("submit", async event =>
 async function showEditModal(userId) {
     try {
         // Можно вызвать /api/users/{id}, но для простоты загрузим всех:
-        const response = await fetch("/api/users");
+        const response = await fetch("/api/admin/users");
         if (!response.ok) {
             throw new Error("Ошибка при получении списка пользователей");
         }
@@ -222,7 +222,7 @@ document.getElementById("editUserForm").addEventListener("submit", async event =
     }));
 
     try {
-        const response = await fetch(`/api/users/${userId}`, {
+        const response = await fetch(`/api/admin/users/${userId}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
@@ -259,7 +259,7 @@ document.getElementById("editUserForm").addEventListener("submit", async event =
 async function showDeleteModal(userId) {
     try {
         // Можно вызвать /api/users/{id}, но для простоты загрузим всех:
-        const response = await fetch("/api/users");
+        const response = await fetch("/api/admin/users");
         if (!response.ok) {
             throw new Error("Ошибка при получении списка пользователей");
         }
@@ -298,7 +298,7 @@ document.getElementById("deleteUserForm").addEventListener("submit", async event
     const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
     const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
 
-    const response = await fetch(`/api/users/${userId}`, {
+    const response = await fetch(`/api/admin/users/${userId}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
