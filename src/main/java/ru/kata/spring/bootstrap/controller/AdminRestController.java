@@ -52,10 +52,8 @@ public class AdminRestController {
     }
 
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable int id) {
-        userService.deleteUser(id);
-        // Возвращаем статус 200 (OK).
-        return ResponseEntity.ok().build();
+    public User deleteUser(@PathVariable int id) {
+       return userService.deleteUser(id);
     }
 
 }
