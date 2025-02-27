@@ -3,9 +3,7 @@ package ru.kata.spring.bootstrap.service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.kata.spring.bootstrap.entity.Role;
 import ru.kata.spring.bootstrap.entity.User;
-import ru.kata.spring.bootstrap.repository.RoleRepository;
 import ru.kata.spring.bootstrap.repository.UserRepository;
 
 import java.util.List;

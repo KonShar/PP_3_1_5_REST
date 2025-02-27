@@ -1,7 +1,6 @@
 package ru.kata.spring.bootstrap.controller;
 
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.bootstrap.entity.Role;
