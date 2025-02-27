@@ -20,33 +20,46 @@
     </div>
 </nav>
 
-<div class="container mt-3">
-    <h2 class="mt-3">User information-page</h2>
-    <div class="card">
-        <div class="card-header">About user</div>
-        <div class="card-body">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Age</th>
-                    <th>Email</th>
-                    <th>Roles</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td id="currentUserId"></td>
-                    <td id="currentUserFirstName"></td>
-                    <td id="currentUserLastName"></td>
-                    <td id="currentUserAge"></td>
-                    <td id="currentUserEmail"></td>
-                    <td id="currentUserRoles"></td>
-                </tr>
-                </tbody>
-            </table>
+<div class="container-fluid mt-3">
+    <div class="row">
+        <!-- Боковая панель только для User -->
+        <div class="col-md-2 bg-light vh-100">
+            <ul class="nav flex-column nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link active" id="user-tab" data-bs-toggle="pill" href="#user">User</a>
+                </li>
+            </ul>
+        </div>
+        <!-- Основной контент -->
+        <div class="col-md-10">
+            <h2 class="mt-3">User information-page</h2>
+            <div class="card">
+                <div class="card-header">About user</div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Age</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td id="currentUserId"></td>
+                            <td id="currentUserFirstName"></td>
+                            <td id="currentUserLastName"></td>
+                            <td id="currentUserAge"></td>
+                            <td id="currentUserEmail"></td>
+                            <td id="currentUserRoles"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
