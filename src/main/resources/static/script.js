@@ -45,7 +45,7 @@ async function loadCurrentUser() {
         document.getElementById("currentUserLastName").textContent = user.lastName;
         document.getElementById("currentUserAge").textContent = user.age;
         document.getElementById("currentUserEmail").textContent = user.email;
-        document.getElementById("currentUserRoles").textContent = user.roles.map(r => r.name.replace("ROLE_", "")).join(", ");
+        document.getElementById("currentUserRoles").textContent = user.roles.map(r => r.name.replace("ROLE_", "")).join(" ");
 
         const navbarInfo = document.getElementById("navbarUserInfo");
         if (navbarInfo) {
@@ -76,7 +76,7 @@ async function loadAllUsers() {
                 <td>${user.lastName}</td>
                 <td>${user.age}</td>
                 <td>${user.email}</td>
-                <td>${user.roles.map(r => r.name.replace("ROLE_", "")).join(", ")}</td>
+                <td>${user.roles.map(r => r.name.replace("ROLE_", "")).join(" ")}</td>
                 <td>
                     <button class="btn btn-primary" onclick="showEditModal(${user.id})">Edit</button>
                 </td>
@@ -233,8 +233,7 @@ async function showDeleteModal(userId) {
         if (!user) {
             throw new Error("Пользователь не найден");
         }
-
-        document.getElementById("deleteId").value = user.id;
+        document.getElementById("deleteUserId").value = user.id;
         document.getElementById("deleteFirstName").value = user.firstName;
         document.getElementById("deleteLastName").value = user.lastName;
         document.getElementById("deleteAge").value = user.age;
@@ -256,7 +255,7 @@ async function showDeleteModal(userId) {
 document.getElementById("deleteUserForm").addEventListener("submit", async event => {
     event.preventDefault(); // Остановить стандартную отправку формы
 
-    const userId = document.getElementById("deleteId").value;
+    const userId = document.getElementById("deleteUserId").value;
 
     const response = await fetch(`/api/admin/users/${userId}`, {
         method: 'DELETE',
